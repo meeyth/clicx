@@ -17,7 +17,12 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.myth_007.clicx"
+      "package": "com.myth_007.clicx",
+      "permissions": [
+        "INTERNET",
+        "CAMERA",
+        "MEDIA_LIBRARY"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -33,6 +38,21 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow access to photos to upload blog images",
+          "cameraPermission": "Allow access to camera to upload blog images"
         }
       ]
     ],

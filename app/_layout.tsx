@@ -1,4 +1,5 @@
 import { SplashScreen, Stack } from "expo-router";
+import { StatusBar } from 'expo-status-bar';
 
 import { store } from "@/services/store";
 import { useFonts } from "expo-font";
@@ -37,7 +38,13 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen
+          name="blogs/[userId]"
+          options={{ headerShown: false }}
+        />
       </Stack>
+      <StatusBar hidden />
     </Provider>
   )
 }
