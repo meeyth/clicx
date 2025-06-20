@@ -1,23 +1,24 @@
 // app/(tabs)/feed.tsx or wherever your feed screen is
 // import BlogCard from '@/components/BlogCard';
+import BlogCard from '@/components/BlogCard';
 import { useGetFeedQuery } from '@/features/feed/feedApi';
 import { resetFeedDetails, updateCurrentPageToNextPage } from '@/features/feed/feedSlice';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, RefreshControl, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, View } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-const BlogCard = ({ item }) => {
-    // console.log(item.image);
-    return (
-        <View style={{ padding: 16, borderBottomWidth: 1 }}>
-            <Text style={{ fontSize: 16 }}>{item?.title}</Text>
-            <Image source={{ uri: item?.image }} className="h-52 w-full" />
-            <Text style={{ color: '#888' }}>{item?.content}</Text>
-            <Text style={{ color: '#888' }}>{item?.owner?.username}</Text>
-        </View>
-    )
-};
+// const BlogCard = ({ item }) => {
+//     // console.log(item.image);
+//     return (
+//         <View style={{ padding: 16, borderBottomWidth: 1 }}>
+//             <Text style={{ fontSize: 16 }}>{item?.title}</Text>
+//             <Image source={{ uri: item?.image }} className="h-52 w-full" />
+//             <Text style={{ color: '#888' }}>{item?.content}</Text>
+//             <Text style={{ color: '#888' }}>{item?.owner?.username}</Text>
+//         </View>
+//     )
+// };
 
 const FeedScreen = () => {
     const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const FeedScreen = () => {
             refetch(); // NOW it's called with page = 1
             setRefreshing(false);
         }
-    }, [refreshing, page]);
+    }, [refreshing, page, refetch]);
 
     // Handle infinite scroll pagination
     const handleLoadMore = () => {
