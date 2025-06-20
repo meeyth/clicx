@@ -4,14 +4,15 @@ import { Image, Text, View } from 'react-native';
 const BlogCard = ({ item }) => {
     // console.log(item.image);
     return (
-        <View style={{ padding: 16, borderBottomWidth: 1 }}>
-            <Text style={{ fontSize: 16 }}>{item?.title}</Text>
+        <View className="px-5 w-full mb-5" >
             <Image
                 source={{ uri: item?.image }}
-                className="h-52 w-full"
+                className="h-52 w-full rounded-lg mb-2"
             />
-            <Text style={{ color: '#888' }}>{item?.content}</Text>
-            <Text style={{ color: '#888' }}>{item?.owner?.username}</Text>
+            <View className="flex-row w-full justify-start items-stretch">
+                <Text className="font-pmedium text-2xl">{item?.title}</Text>
+
+            </View>
         </View>
     )
 };

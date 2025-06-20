@@ -28,7 +28,7 @@ const index = () => {
 
     return (
 
-        <>
+        <View className="bg-background-100">
             <Image src={user?.coverImage} className="h-64 w-full" resizeMode='cover' />
             <Image src={user?.avatar} className="h-32 w-32 rounded-full border-2 border-solid border-amber-400 absolute top-48 left-[5%] " />
             <View className="top-16 mx-[5%] px-2 w-[90%] ">
@@ -61,16 +61,16 @@ const index = () => {
                 <View className="bg-black-200 h-[0.1rem] w-full rounded-lg mt-5 opacity-35  mb-20" />
 
 
-                <TouchableOpacity className="w-full bg-pink-300 h-10 rounded-lg justify-center items-center mb-5">
+                <TouchableOpacity className="w-full bg-red-300 h-10 rounded-lg justify-center items-center mb-5">
                     <Text className="text-2xl font-pbold  ">You Liked</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity className="w-full bg-gray-300 h-10 rounded-lg justify-center items-center" onPress={handleLogout}>
+                <TouchableOpacity className="flex-row w-full bg-gray-300 h-10 rounded-lg justify-around items-center" onPress={handleLogout}>
                     <Text className="text-2xl font-pbold ">Logout</Text>
                 </TouchableOpacity>
             </View>
 
-        </>
+        </View>
 
     )
 }

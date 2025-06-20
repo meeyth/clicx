@@ -1,26 +1,12 @@
 // import BlogCard from '@/components/BlogCard';
 import BlogCard from '@/components/BlogCard';
+import { images } from '@/constants';
 import { useGetUserBlogsQuery } from '@/features/blog/blogApi';
 import { resetBlogDetails, updateCurrentPageToNextPage } from '@/features/blog/blogSlice';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, RefreshControl, View } from 'react-native';
+import { ActivityIndicator, FlatList, Image, RefreshControl, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-
-
-
-// const BlogCard = ({ item }) => {
-//     // console.log(item.image);
-//     return (
-//         <View style={{ padding: 16, borderBottomWidth: 1 }}>
-//             <Text style={{ fontSize: 16 }}>{item?.title}</Text>
-//             <Image source={{ uri: item?.image }} className="h-52 w-full" />
-//             <Text style={{ color: '#888' }}>{item?.content}</Text>
-//             <Text style={{ color: '#888' }}>{item?.owner?.username}</Text>
-//         </View>
-//     )
-// };
-
 
 
 const UserBlog = () => {
@@ -49,6 +35,31 @@ const UserBlog = () => {
         refetch
     } = useGetUserBlogsQuery({ userId, page, limit: 5 });
 
+    const renderFooter = () => {
+        return (
+            <View style={{ marginVertical: 16, alignItems: "center" }}>
+                {isFetching && !refreshing ? (
+                    <ActivityIndicator size="small" color="#007AFF" />
+                ) : hasNextPage ? (
+                    <Text style={{ color: "#888" }}>Scroll to load more</Text>
+                ) : (
+                    <Text style={{ color: "#888" }}>No more blogs</Text>
+                )}
+            </View>
+        );
+    };
+
+
+    const renderHeader = () => {
+        return (
+            <View className="h-20 w-[90%] mt-[10%] px-2 self-center">
+                <Text className="font-pextrabold text-3xl" > Your Clicx</Text>
+                <Image source={images.path} className="h-2 w-20" style={{ resizeMode: "contain" }} />
+                <View className="bg-black-200 h-[0.1rem] w-full rounded-lg mt-2 opacity-35  mb-20" />
+            </View>
+        );
+    };
+
     console.log(blogData);
 
     // Pull-to-refresh handler
@@ -66,7 +77,7 @@ const UserBlog = () => {
 
     // Handle infinite scroll pagination
     const handleLoadMore = () => {
-        if (hasNextPage) {
+        if (!isFetching && hasNextPage && !refreshing) {
             dispatch(updateCurrentPageToNextPage({ page: nextPage }));
         }
     };
@@ -82,14 +93,17 @@ const UserBlog = () => {
             ) : (
                 <FlatList
                     data={blogData.docs || []}
+                    contentContainerClassName="w-[95%] self-center"
                     keyExtractor={(item) => item._id.toString()}
                     renderItem={BlogCard}
                     onEndReached={handleLoadMore}
                     onEndReachedThreshold={0.3}
-                    ListEmptyComponent={BlogCard}
+                    ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }}>No blogs found.</Text>}
+                    ListHeaderComponent={renderHeader}
+                    ListFooterComponent={renderFooter}
                     refreshControl={
                         <RefreshControl
-                            refreshing={isFetching}
+                            refreshing={refreshing}
                             onRefresh={onRefresh}
                             tintColor="#007AFF"
                         />

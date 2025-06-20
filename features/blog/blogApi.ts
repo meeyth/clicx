@@ -12,6 +12,22 @@ export const blogApi = apiSlice.injectEndpoints({
                 body: formData,
                 formData: true, // Needed to set multipart/form-data
             }),
+
+            async onQueryStarted(arg, { dispatch, queryFulfilled, getState }) {
+                try {
+                    await queryFulfilled;
+
+                    const userId = getState().auth.user._id; // adjust based on your auth slice
+
+                    // ✅ Invalidate all cached pages of the user’s blogs
+                    dispatch(
+                        blogApi.util.invalidateTags([{ type: 'UserBlogs', id: `${userId}-1` }])
+                    );
+                } catch (err) {
+                    console.error("Blog creation failed", err);
+                }
+            },
+
         }),
 
         getUserBlogs: builder.query({
