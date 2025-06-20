@@ -3,6 +3,13 @@ module.exports = {
   // NOTE: Update this to include the paths to all of your component files.
   content: ['./app/**/*.{js,tsx,ts,jsx}', './components/**/*.{js,tsx,ts,jsx}'],
   presets: [require("nativewind/preset")],
+  safelist: [
+    'h-52',
+    'w-full',
+    'h-48', // (add more if used)
+    'h-64',
+    'aspect-square', // if you use this anywhere
+  ],
   theme: {
     extend: {
       colors: {
