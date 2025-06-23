@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const UserBlog = () => {
 
-    const { userId } = useLocalSearchParams();
+    const { ownerId } = useLocalSearchParams();
 
     const dispatch = useDispatch();
     const [refreshing, setRefreshing] = useState(false);
@@ -24,6 +24,7 @@ const UserBlog = () => {
         nextPage
     } = useSelector((state) => state.blog.blogDetails);
 
+
     // console.log(page, "ppage");
 
     // Fetch feed using RTK Query (based on current page)
@@ -33,7 +34,14 @@ const UserBlog = () => {
         isFetching,
         isError,
         refetch
-    } = useGetUserBlogsQuery({ userId, page, limit: 5 });
+    } = useGetUserBlogsQuery({ userId: ownerId, page, limit: 5 },
+        {
+            refetchOnMountOrArgChange: true,
+            refetchOnFocus: true,
+            refetchOnReconnect: true,
+
+        }
+    );
 
     const renderFooter = () => {
         return (
@@ -43,7 +51,7 @@ const UserBlog = () => {
                 ) : hasNextPage ? (
                     <Text style={{ color: "#888" }}>Scroll to load more</Text>
                 ) : (
-                    <Text style={{ color: "#888" }}>No more blogs</Text>
+                    <Text style={{ color: "#888" }}>No more clicx</Text>
                 )}
             </View>
         );
@@ -68,6 +76,7 @@ const UserBlog = () => {
         dispatch(resetBlogDetails()); // page will be set to 1
     };
 
+
     useEffect(() => {
         if (refreshing && page === 1) {
             refetch(); // NOW it's called with page = 1
@@ -82,7 +91,7 @@ const UserBlog = () => {
         }
     };
 
-    console.log(userId);
+    console.log(ownerId);
 
     return (
         <View className="flex-1 bg-slate-100">
@@ -97,8 +106,8 @@ const UserBlog = () => {
                     keyExtractor={(item) => item._id.toString()}
                     renderItem={BlogCard}
                     onEndReached={handleLoadMore}
-                    onEndReachedThreshold={0.3}
-                    ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }}>No blogs found.</Text>}
+                    onEndReachedThreshold={0.6}
+                    ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }}>No clicx found.</Text>}
                     ListHeaderComponent={renderHeader}
                     ListFooterComponent={renderFooter}
                     refreshControl={

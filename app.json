@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "clicx",
+    "name": "Clicx",
     "slug": "clicx",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,7 +21,9 @@
       "permissions": [
         "INTERNET",
         "CAMERA",
-        "MEDIA_LIBRARY"
+        "MEDIA_LIBRARY",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
       ]
     },
     "web": {
@@ -52,7 +54,8 @@
         "expo-image-picker",
         {
           "photosPermission": "Allow access to photos to upload blog images",
-          "cameraPermission": "Allow access to camera to upload blog images"
+          "cameraPermission": "Allow access to camera to upload blog images",
+          "mediaLibraryPermission": "Allow access to your media"
         }
       ]
     ],

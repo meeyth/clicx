@@ -23,6 +23,25 @@ export const authApi = apiSlice.injectEndpoints({
             },
         }),
 
+        register: builder.mutation({
+            query: (formData) => ({
+                url: "/users/register",
+                method: "POST",
+                body: formData,
+                formData: true, // tells RTK Query to send multipart/form-data
+            }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    console.log(data);
+                    dispatch(setCredentials({ accessToken: data.data.accessToken, user: data.data.user }));
+                    await setRefreshToken(data.data.refreshToken);
+                } catch (err) {
+                    console.error('Signup failed:', err);
+                }
+            },
+        }),
+
         logout: builder.mutation({
             query: () => ({
                 url: '/users/logout',
@@ -58,6 +77,7 @@ export const authApi = apiSlice.injectEndpoints({
 
 export const {
     useLoginMutation,
+    useRegisterMutation,
     useLogoutMutation,
     useGetCurrentUserQuery,
 } = authApi;

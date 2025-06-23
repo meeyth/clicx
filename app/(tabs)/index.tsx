@@ -41,9 +41,9 @@ const FeedScreen = () => {
                 {isFetching && !refreshing ? (
                     <ActivityIndicator size="small" color="#007AFF" />
                 ) : hasNextPage ? (
-                    <Text style={{ color: "#888" }}>Scroll to load more</Text>
+                    <Text style={{ color: "#888" }} className="font-plight">Scroll to load more</Text>
                 ) : (
-                    <Text style={{ color: "#888" }}>No more blogs</Text>
+                    <Text style={{ color: "#888" }} className="font-plight">No more Clicx</Text>
                 )}
             </View>
         );
@@ -95,7 +95,7 @@ const FeedScreen = () => {
                     renderItem={BlogCard}
                     onEndReached={handleLoadMore}
                     onEndReachedThreshold={0.6}
-                    ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }}>No blogs found.</Text>}
+                    ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }} className="font-plight">No Clicx found.</Text>}
                     ListHeaderComponent={renderHeader}
                     ListFooterComponent={renderFooter}
                     refreshControl={

@@ -20,9 +20,17 @@ export const blogApi = apiSlice.injectEndpoints({
                     const userId = getState().auth.user._id; // adjust based on your auth slice
 
                     // ✅ Invalidate all cached pages of the user’s blogs
-                    dispatch(
-                        blogApi.util.invalidateTags([{ type: 'UserBlogs', id: `${userId}-1` }])
-                    );
+                    dispatch(blogApi.util.invalidateTags([{ type: 'UserBlogs' }]));
+
+
+                    // ✅ Step 2: Force refetch page 1 immediately
+                    // await dispatch(
+                    //     blogApi.endpoints.getUserBlogs.initiate(
+                    //         { userId, page: 1, limit: 10 },
+                    //         { forceRefetch: true }
+                    //     )
+
+                    // );
                 } catch (err) {
                     console.error("Blog creation failed", err);
                 }
@@ -89,7 +97,7 @@ export const blogApi = apiSlice.injectEndpoints({
             },
 
             // Only refetch when the page number changes
-            forceRefetch({ currentArg, previousArg, }) {
+            forceRefetch: ({ currentArg, previousArg, }) => {
                 // console.log(currentArg, previousArg, "forceRefetch");
                 return currentArg?.page !== previousArg?.page;
             },
@@ -97,8 +105,10 @@ export const blogApi = apiSlice.injectEndpoints({
 
             providesTags: (result, error, { userId, page }) => [
                 { type: "UserBlogs", id: `${userId}-${page}` },
+                { type: "UserBlogs" }, // ← Add this line
             ],
         }),
+
     }),
 });
 

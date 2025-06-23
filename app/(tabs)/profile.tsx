@@ -44,7 +44,7 @@ const index = () => {
                     <Link className="flex justify-start items-start w-[33%] " asChild href={`blogs/${user?._id}`}>
                         <TouchableOpacity className="flex justify-start items-start w-[33%]" >
                             <Text className="font-pmedium text-black">{user?.totalBlogs} </Text>
-                            <Text className="font-pregular text-black">Blogs </Text>
+                            <Text className="font-pregular text-black">Clicx </Text>
                         </TouchableOpacity>
                     </Link>
 

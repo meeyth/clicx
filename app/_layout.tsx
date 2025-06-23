@@ -40,7 +40,11 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen
-          name="blogs/[userId]"
+          name="blogs/[ownerId]"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="blog-details/[blogId]"
           options={{ headerShown: false }}
         />
       </Stack>
