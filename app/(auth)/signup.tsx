@@ -62,7 +62,6 @@ const Register = () => {
 
         try {
             await registerUser(formData).unwrap();
-            console.log("Signed up successfully");
             router.replace('/(tabs)');
             // Navigate or perform post-registration logic
         } catch (err) {
@@ -166,7 +165,7 @@ const Register = () => {
                     {/* Error Message */}
                     {isError && (
                         <Text className="text-red-500 text-sm mb-2 font-pregular">
-                            {JSON.stringify(error?.data?.message || error?.error)}
+                            {"Something went wrong while registering"}
                         </Text>
                     )}
 

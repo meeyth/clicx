@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux';
 function TabIcon({ focused, icon, title }: any) {
     const user = useSelector((state: any) => state.auth.user);
 
-    console.log(user, "_layout");
     const isProfileTab = title === 'Profile';
     const profileImage = user?.avatar;
 

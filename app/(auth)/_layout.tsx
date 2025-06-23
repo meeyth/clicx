@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 const AuthLayout = () => {
     const user = useSelector(state => state.auth.user);
 
-    console.log("Auth Layout");
+    // console.log("Auth Layout");
 
     if (user) return <Redirect href="/(tabs)" />
 

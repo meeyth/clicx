@@ -30,7 +30,6 @@ export default function CreateBlogScreen() {
 
         if (!result.canceled) {
             setImage(result.assets[0]);
-            console.log(result.assets[0]);
         }
     };
 

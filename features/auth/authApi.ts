@@ -14,7 +14,6 @@ export const authApi = apiSlice.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    console.log(data);
                     dispatch(setCredentials({ accessToken: data.data.accessToken, user: data.data.user }));
                     await setRefreshToken(data.data.refreshToken);
                 } catch (err) {
@@ -30,14 +29,14 @@ export const authApi = apiSlice.injectEndpoints({
                 body: formData,
                 formData: true, // tells RTK Query to send multipart/form-data
             }),
+
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    console.log(data);
                     dispatch(setCredentials({ accessToken: data.data.accessToken, user: data.data.user }));
                     await setRefreshToken(data.data.refreshToken);
                 } catch (err) {
-                    console.error('Signup failed:', err);
+                    console.error('Registration failed:', err);
                 }
             },
         }),
@@ -73,7 +72,7 @@ export const authApi = apiSlice.injectEndpoints({
             },
         }),
     }),
-} as const); // ✅ Required for proper type inference
+}); // ✅ Required for proper type inference
 
 export const {
     useLoginMutation,
