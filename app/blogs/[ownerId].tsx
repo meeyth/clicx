@@ -1,97 +1,80 @@
-// import BlogCard from '@/components/BlogCard';
+// app/screens/UserBlog.tsx
 import BlogCard from '@/components/BlogCard';
 import { images } from '@/constants';
 import { useGetUserBlogsQuery } from '@/features/blog/blogApi';
-import { resetBlogDetails, updateCurrentPageToNextPage } from '@/features/blog/blogSlice';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, RefreshControl, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-
+import {
+    ActivityIndicator,
+    FlatList,
+    Image,
+    RefreshControl,
+    Text,
+    View,
+} from 'react-native';
 
 const UserBlog = () => {
-
     const { ownerId } = useLocalSearchParams();
-
-    const dispatch = useDispatch();
+    const [page, setPage] = useState(1);
     const [refreshing, setRefreshing] = useState(false);
 
-
-    // Get current page number from Redux metadata
-    const {
-        page,
-        hasNextPage,
-        nextPage
-    } = useSelector((state) => state.blog.blogDetails);
-
-
-    // console.log(page, "ppage");
-
-    // Fetch feed using RTK Query (based on current page)
     const {
         data: blogData,
         isLoading,
         isFetching,
-        isError,
-        refetch
-    } = useGetUserBlogsQuery({ userId: ownerId, page, limit: 5 },
+        refetch,
+    } = useGetUserBlogsQuery(
+        { userId: ownerId, page, limit: 5 },
         {
             refetchOnMountOrArgChange: true,
             refetchOnFocus: true,
             refetchOnReconnect: true,
-
         }
     );
 
-    const renderFooter = () => {
-        return (
-            <View style={{ marginVertical: 16, alignItems: "center" }}>
-                {isFetching && !refreshing ? (
-                    <ActivityIndicator size="small" color="#007AFF" />
-                ) : hasNextPage ? (
-                    <Text style={{ color: "#888" }}>Scroll to load more</Text>
-                ) : (
-                    <Text style={{ color: "#888" }}>No more clicx</Text>
-                )}
-            </View>
-        );
-    };
-
-
-    const renderHeader = () => {
-        return (
-            <View className="h-20 w-[90%] mt-[10%] px-2 self-center">
-                <Text className="font-pextrabold text-3xl" > Your Clicx</Text>
-                <Image source={images.path} className="h-2 w-20" style={{ resizeMode: "contain" }} />
-                <View className="bg-black-200 h-[0.1rem] w-full rounded-lg mt-2 opacity-35  mb-20" />
-            </View>
-        );
-    };
-
-    console.log(blogData);
-
-    // Pull-to-refresh handler
+    // console.log(blogData, "blogdata");
     const onRefresh = () => {
         setRefreshing(true);
-        dispatch(resetBlogDetails()); // page will be set to 1
+        setPage(1); // resets to first page
     };
-
 
     useEffect(() => {
         if (refreshing && page === 1) {
-            refetch(); // NOW it's called with page = 1
+            refetch();
             setRefreshing(false);
         }
     }, [refreshing, page, refetch]);
 
-    // Handle infinite scroll pagination
     const handleLoadMore = () => {
-        if (!isFetching && hasNextPage && !refreshing) {
-            dispatch(updateCurrentPageToNextPage({ page: nextPage }));
+        if (!isFetching && blogData?.hasNextPage && !refreshing) {
+            setPage(blogData.nextPage); // comes from API response
         }
     };
 
-    console.log(ownerId);
+    const renderHeader = () => (
+        <View className="h-20 w-[90%] mt-[10%] px-2 self-center">
+            <Text className="font-pextrabold text-3xl">Your Clicx</Text>
+            <Image
+                source={images.path}
+                className="h-2 w-20"
+                style={{ resizeMode: 'contain' }}
+            />
+            <View className="bg-black-200 h-[0.1rem] w-full rounded-lg mt-2 opacity-35  mb-20" />
+        </View>
+    );
+
+    const renderFooter = () => (
+        <View style={{ marginVertical: 16, alignItems: 'center' }}>
+            {isFetching && !refreshing ? (
+                <ActivityIndicator size="small" color="#007AFF" />
+            ) : blogData?.hasNextPage ? (
+                <Text style={{ color: '#888' }}>Scroll to load more</Text>
+            ) : (
+                <Text style={{ color: '#888' }}>No more clicx</Text>
+            )}
+        </View>
+    );
+
 
     return (
         <View className="flex-1 bg-slate-100">
@@ -101,13 +84,17 @@ const UserBlog = () => {
                 </View>
             ) : (
                 <FlatList
-                    data={blogData.docs || []}
+                    data={blogData?.docs || []}
                     contentContainerClassName="w-[95%] self-center"
                     keyExtractor={(item) => item._id.toString()}
                     renderItem={BlogCard}
                     onEndReached={handleLoadMore}
                     onEndReachedThreshold={0.6}
-                    ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }}>No clicx found.</Text>}
+                    ListEmptyComponent={
+                        <Text style={{ textAlign: 'center', marginTop: 50 }}>
+                            No clicx found.
+                        </Text>
+                    }
                     ListHeaderComponent={renderHeader}
                     ListFooterComponent={renderFooter}
                     refreshControl={
@@ -120,7 +107,7 @@ const UserBlog = () => {
                 />
             )}
         </View>
-    )
-}
+    );
+};
 
-export default UserBlog
+export default UserBlog;

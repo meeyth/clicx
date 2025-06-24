@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const AuthLayout = () => {
-    const user = useSelector(state => state.auth.user);
+    const user = useSelector((state: any) => state.auth.user);
 
     // console.log("Auth Layout");
 

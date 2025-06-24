@@ -103,6 +103,16 @@ const HomeLayout = () => {
                 }}
             />
             <Tabs.Screen
+                name="liked"
+                options={{
+                    headerShown: false,
+                    title: "Liked",
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon focused={focused} icon={icons.heart3} title="Liked" />
+                    ),
+                }}
+            />
+            <Tabs.Screen
                 name="profile"
                 options={{
                     headerShown: false,

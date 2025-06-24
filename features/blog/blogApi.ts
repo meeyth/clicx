@@ -1,6 +1,5 @@
 // features/blog/blogApi.ts
 import { apiSlice } from '@/services/api';
-import { setBlogDetails } from './blogSlice';
 
 export const blogApi = apiSlice.injectEndpoints({
     overrideExisting: true,
@@ -10,75 +9,34 @@ export const blogApi = apiSlice.injectEndpoints({
                 url: '/blog/add-blog',
                 method: 'POST',
                 body: formData,
-                formData: true, // Needed to set multipart/form-data
+                formData: true,
             }),
-
             async onQueryStarted(arg, { dispatch, queryFulfilled, getState }) {
                 try {
                     await queryFulfilled;
-
-                    const userId = getState().auth.user._id; // adjust based on your auth slice
-
-                    // ✅ Invalidate all cached pages of the user’s blogs
+                    const userId = getState().auth.user._id;
                     dispatch(blogApi.util.invalidateTags([{ type: 'UserBlogs' }]));
-
-
-                    // ✅ Step 2: Force refetch page 1 immediately
-                    // await dispatch(
-                    //     blogApi.endpoints.getUserBlogs.initiate(
-                    //         { userId, page: 1, limit: 10 },
-                    //         { forceRefetch: true }
-                    //     )
-
-                    // );
                 } catch (err) {
-                    console.error("Blog creation failed", err);
+                    console.error('Blog creation failed', err);
                 }
             },
-
         }),
 
         getUserBlogs: builder.query({
             query: ({ userId, page = 1, limit = 10 }) => ({
                 url: `/blog/user-blog/${userId}?page=${page}&limit=${limit}`,
-                method: "GET",
+                method: 'GET',
             }),
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    // console.log("query started");
-                    dispatch(setBlogDetails({
-                        totalDocs: data.totalDocs,
-                        limit: data.limit,
-                        page: data.page,
-                        totalPages: data.totalPages,
-                        hasNextPage: data.hasNextPage, // Keep track of next page
-                        hasPrevPage: data.hasPrevPage,
-                        prevPage: data.prevPage,
-                        nextPage: data.nextPage,
-                        pagingCounter: data.pagingCounter
-                    }))
-
-                } catch (error) {
-                    console.error('Feed fetched failed: ', error);
-                }
-            },
-
-            // Serialization of query arguments to ensure correct caching
-            serializeQueryArgs: ({ endpointName }) => {
-                return endpointName;
-            },
-
             transformResponse: (response) => {
-                // console.log(response, "transformResponse");
+                // console.log(response, "trans");
                 return response.data;
             },
 
-            // Merging data immutably
+            serializeQueryArgs: ({ endpointName }) => endpointName,
+
             merge: (existingCache, newItems) => {
                 if (newItems.page === 1) {
-                    console.log("not merging this time");
-                    return { ...newItems }; // Replace on first page
+                    return { ...newItems };
                 }
 
                 return {
@@ -92,23 +50,19 @@ export const blogApi = apiSlice.injectEndpoints({
                     hasPrevPage: newItems.hasPrevPage,
                     prevPage: newItems.prevPage,
                     nextPage: newItems.nextPage,
-                    pagingCounter: newItems.pagingCounter
+                    pagingCounter: newItems.pagingCounter,
                 };
             },
 
-            // Only refetch when the page number changes
-            forceRefetch: ({ currentArg, previousArg, }) => {
-                // console.log(currentArg, previousArg, "forceRefetch");
+            forceRefetch: ({ currentArg, previousArg }) => {
                 return currentArg?.page !== previousArg?.page;
             },
 
-
             providesTags: (result, error, { userId, page }) => [
-                { type: "UserBlogs", id: `${userId}-${page}` },
-                { type: "UserBlogs" }, // ← Add this line
+                { type: 'UserBlogs', id: `${userId}-${page}` },
+                { type: 'UserBlogs' },
             ],
         }),
-
     }),
 });
 

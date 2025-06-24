@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 
 export default function Index() {
   const { loading } = useAuthInit();
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state: any) => state.auth.user);
 
   if (loading) {
     return (
