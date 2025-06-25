@@ -58,7 +58,7 @@ const FollowList = () => {
     const renderFooter = () => (
         <View style={{ marginVertical: 16, alignItems: 'center' }}>
             {isFetching && !refreshing ? (
-                <ActivityIndicator size="small" color="#007AFF" />
+                <ActivityIndicator size="small" color="#000" />
             ) : hasNextPage ? (
                 <Text style={{ color: '#888' }} className="font-plight">Scroll to load more</Text>
             ) : (
@@ -76,7 +76,7 @@ const FollowList = () => {
         <View className="flex-1 bg-background-100">
             {isLoading && !followingList ? (
                 <View className="flex-1 justify-center items-center">
-                    <ActivityIndicator size="large" color="#007AFF" />
+                    <ActivityIndicator size="large" color="#000" />
                 </View>
             ) : (
                 <FlatList
@@ -94,7 +94,7 @@ const FollowList = () => {
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={onRefresh}
-                            tintColor="#007AFF"
+                            tintColor="#000"
                         />
                     }
                 />

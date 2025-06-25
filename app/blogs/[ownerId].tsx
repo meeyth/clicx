@@ -25,11 +25,6 @@ const UserBlog = () => {
         refetch,
     } = useGetUserBlogsQuery(
         { userId: ownerId, page, limit: 5 },
-        {
-            refetchOnMountOrArgChange: true,
-            refetchOnFocus: true,
-            refetchOnReconnect: true,
-        }
     );
 
     // console.log(blogData, "blogdata");

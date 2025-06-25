@@ -4,6 +4,22 @@ import { apiSlice } from '@/services/api';
 export const blogApi = apiSlice.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
+        getSpecificBlog: builder.query({
+            query: ({ blogId }: { blogId: string }) => ({
+                url: `/blog/get-blog/${blogId}`,
+                method: 'GET',
+                // Optional if you’re using cookies for auth
+                // credentials: 'include',
+            }),
+
+            transformResponse: (response) => {
+                // console.log(response, "getSpecificBlog");
+                return response.data; // the actual blog document
+            },
+
+            providesTags: (result, error, { blogId }) => [{ type: 'Blog', id: blogId }],
+        }),
+
         createBlog: builder.mutation({
             query: (formData) => ({
                 url: '/blog/add-blog',
@@ -11,15 +27,7 @@ export const blogApi = apiSlice.injectEndpoints({
                 body: formData,
                 formData: true,
             }),
-            async onQueryStarted(arg, { dispatch, queryFulfilled, getState }) {
-                try {
-                    await queryFulfilled;
-                    const userId = getState().auth.user._id;
-                    dispatch(blogApi.util.invalidateTags([{ type: 'UserBlogs' }]));
-                } catch (err) {
-                    console.error('Blog creation failed', err);
-                }
-            },
+            invalidatesTags: ['UserBlogs'],
         }),
 
         getUserBlogs: builder.query({
@@ -66,4 +74,4 @@ export const blogApi = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useCreateBlogMutation, useGetUserBlogsQuery } = blogApi;
+export const { useCreateBlogMutation, useGetUserBlogsQuery, useGetSpecificBlogQuery } = blogApi;
