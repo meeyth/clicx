@@ -4,10 +4,9 @@ import { apiSlice } from "@/services/api";
 export const followApi = apiSlice.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
-        // Login endpoint definition
 
         getFollowing: builder.query({
-            query: ({ userId, page = 1, limit = 10 }) => ({
+            query: ({ userId, page = 1, limit = 5 }) => ({
                 url: `/users/get-following/${userId}?page=${page}&limit=${limit}`,
                 method: 'GET',
             }),
@@ -34,6 +33,35 @@ export const followApi = apiSlice.injectEndpoints({
             ],
         }),
 
+
+        getFollower: builder.query({
+            query: ({ userId, page = 1, limit = 5 }) => ({
+                url: `/users/get-follower/${userId}?page=${page}&limit=${limit}`,
+                method: 'GET',
+            }),
+            transformResponse: (response) => response.data,
+
+            // Optional caching + pagination handling
+            serializeQueryArgs: ({ endpointName }) => endpointName,
+
+            merge: (currentCache, newData) => {
+                if (newData.page === 1) return newData;
+
+                return {
+                    ...newData,
+                    docs: [...(currentCache?.docs || []), ...newData.docs],
+                };
+            },
+
+            forceRefetch: ({ currentArg, previousArg }) => {
+                return currentArg?.page !== previousArg?.page;
+            },
+
+            providesTags: (result, error, { userId, page }) => [
+                { type: 'Follower', id: `${userId}-${page}` },
+            ],
+        }),
+
         toggleFollow: builder.mutation({
             query: ({ userId }) => {
                 // console.log("Called toggleFollow", userId);
@@ -57,4 +85,4 @@ export const followApi = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetFollowingQuery, useToggleFollowMutation } = followApi;
+export const { useGetFollowingQuery, useToggleFollowMutation, useGetFollowerQuery } = followApi;

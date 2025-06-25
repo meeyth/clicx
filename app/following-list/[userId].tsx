@@ -1,31 +1,28 @@
-// app/(tabs)/feed.tsx
-import BlogCard from '@/components/BlogCard';
+import AccountListItem from '@/components/AccountListItem';
 import { images } from '@/constants';
-import { useGetFeedQuery } from '@/features/feed/feedApi';
-import React, { useEffect, useState } from 'react';
-import {
-    ActivityIndicator,
-    FlatList,
-    Image,
-    RefreshControl,
-    Text,
-    View
-} from 'react-native';
+import { useGetFollowingQuery } from '@/features/follow/followApi';
 
-const FeedScreen = () => {
+import { useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, RefreshControl, Text, View } from 'react-native';
+
+const FollowList = () => {
+    const { userId } = useLocalSearchParams();
+
     const [page, setPage] = useState(1);
     const [refreshing, setRefreshing] = useState(false);
 
-    const {
-        data: feedData,
+    // console.log(userId, "FollowList");
+
+    const { data: followingList,
         isLoading,
         isFetching,
         isError,
-        refetch
-    } = useGetFeedQuery({ page, limit: 5 });
+        refetch } = useGetFollowingQuery({ userId, page }, { refetchOnMountOrArgChange: true });
 
-    const hasNextPage = feedData?.hasNextPage;
-    const nextPage = feedData?.nextPage;
+
+    const hasNextPage = followingList?.hasNextPage;
+    const nextPage = followingList?.nextPage;
 
     const onRefresh = () => {
         setRefreshing(true);
@@ -41,16 +38,22 @@ const FeedScreen = () => {
 
     const handleLoadMore = () => {
         if (hasNextPage && !isFetching && !refreshing) {
+            console.log("Called handleLoadMore", hasNextPage && !isFetching && !refreshing);
             setPage(nextPage);
         }
     };
-    const renderHeader = () => (
-        <View className="h-20 w-[90%] mt-[10%] px-2 self-center">
-            <Text className="font-pextrabold text-3xl">Clicx</Text>
-            <Image source={images.path} className="h-2 w-20" style={{ resizeMode: 'contain' }} />
-            <View className="bg-black-200 h-[0.1rem] w-full rounded-lg mt-2 opacity-35 mb-20" />
-        </View>
-    );
+
+
+    const renderHeader = () => {
+        return (
+            <View className="h-20 w-[90%] mt-[10%] px-2 self-center">
+                <Text className="font-pextrabold text-3xl" > Following</Text>
+                <Image source={images.path} className="h-2 w-20" style={{ resizeMode: "contain" }} />
+                <View className="bg-black-200 h-[0.1rem] w-full rounded-lg mt-2 opacity-35  mb-20" />
+            </View>
+        );
+    };
+
 
     const renderFooter = () => (
         <View style={{ marginVertical: 16, alignItems: 'center' }}>
@@ -59,29 +62,34 @@ const FeedScreen = () => {
             ) : hasNextPage ? (
                 <Text style={{ color: '#888' }} className="font-plight">Scroll to load more</Text>
             ) : (
-                <Text style={{ color: '#888' }} className="font-plight">No more Clicx</Text>
+                <Text style={{ color: '#888' }} className="font-plight">No more Followings</Text>
             )}
         </View>
     );
 
 
+    console.log(followingList);
+
+
+    console.log(userId);
     return (
         <View className="flex-1 bg-background-100">
-            {isLoading && !feedData ? (
+            {isLoading && !followingList ? (
                 <View className="flex-1 justify-center items-center">
                     <ActivityIndicator size="large" color="#007AFF" />
                 </View>
             ) : (
                 <FlatList
-                    data={feedData?.docs || []}
-                    keyExtractor={(item) => item._id.toString()}
-                    renderItem={BlogCard}
                     contentContainerClassName="w-[95%] self-center"
+                    data={followingList.docs || []}
+                    keyExtractor={(item) => item._id.toString()}
+                    renderItem={AccountListItem}
+                    // onEndReached={handleLoadMore}
+                    onEndReachedThreshold={0.6}
+                    ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }} className="font-plight">No Clicx found.</Text>}
                     ListHeaderComponent={renderHeader}
                     ListFooterComponent={renderFooter}
                     onEndReached={handleLoadMore}
-                    onEndReachedThreshold={0.6}
-                    ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }} className="font-plight">No Clicx found.</Text>}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
@@ -92,7 +100,7 @@ const FeedScreen = () => {
                 />
             )}
         </View>
-    );
-};
+    )
+}
 
-export default FeedScreen;
+export default FollowList

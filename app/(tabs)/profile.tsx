@@ -49,13 +49,13 @@ const index = () => {
                         </TouchableOpacity>
                     </Link>
 
-                    <Link className="flex justify-start items-start w-[33%] " asChild href={`blogs/${user?._id}`}>
+                    <Link className="flex justify-start items-start w-[33%] " asChild href={`follower-list/${user?._id}`}>
                         <TouchableOpacity className="flex justify-start items-start w-[33%]" >
                             <Text className="font-pmedium text-black">{user?.totalFollowers} </Text>
                             <Text className="font-pregular text-black">Followers </Text>
                         </TouchableOpacity>
                     </Link>
-                    <Link className="flex justify-start items-start w-[33%] " asChild href={`/follow-list/${user?._id}`}>
+                    <Link className="flex justify-start items-start w-[33%] " asChild href={`/following-list/${user?._id}`}>
                         <TouchableOpacity className="flex justify-start items-start w-[33%]" >
                             <Text className="font-pmedium text-black">{user?.totalFollowings} </Text>
                             <Text className="font-pregular text-black">Followings </Text>
