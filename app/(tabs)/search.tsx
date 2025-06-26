@@ -19,7 +19,7 @@ const search = () => {
             />
 
             <Link asChild href={`/user-profile/${username}`}>
-                <TouchableOpacity className="flex-row w-full bg-black-200 h-10 rounded-lg justify-around items-center" >
+                <TouchableOpacity className="flex-row w-full bg-black-200 h-10 rounded-2xl justify-around items-center" >
                     <Text className="text-2xl font-pbold text-white">Search</Text>
                 </TouchableOpacity>
             </Link>

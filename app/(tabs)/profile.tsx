@@ -26,6 +26,8 @@ const index = () => {
         }
     };
 
+    console.log(user);
+
 
     return (
 

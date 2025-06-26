@@ -1,4 +1,5 @@
 // app/(tabs)/CreateBlogScreen.tsx
+import { images } from '@/constants';
 import { useCreateBlogMutation } from '@/features/blog/blogApi';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
@@ -64,20 +65,19 @@ export default function CreateBlogScreen() {
 
     return (
         <SafeAreaView className="flex-1 bg-white px-4">
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} contentContainerClassName="items-center justify-center">
-                <View className="bg-white w-full max-w-sm rounded-2xl p-6 shadow-lg">
-                    <View className="items-center mb-4">
-                        <Text className="text-xl font-semibold text-black">Create Clicx</Text>
-                        <Text className="text-sm text-gray-500 text-center mt-1">
-                            Share your thoughts with the world
-                        </Text>
-                    </View>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} contentContainerClassName="items-center">
+                <View className="h-20 w-[90%] mt-[10%] px-2 self-center">
+                    <Text className="font-pextrabold text-3xl">Create Clicx</Text>
+                    <Image source={images.path} className="h-2 w-20" style={{ resizeMode: 'contain' }} />
+                    <View className="bg-black-200 h-[0.1rem] w-full rounded-lg mt-2 opacity-35 mb-20" />
+                </View>
 
+                <View className="bg-white w-full max-w-sm rounded-2xl p-6 shadow-lg justify-center">
                     {/* Title */}
                     <View className="mb-3">
-                        <Text className="text-sm text-gray-700 mb-1">Title</Text>
+                        <Text className="text-sm text-gray-700 mb-1 font-pregular">Title</Text>
                         <TextInput
-                            className="border border-gray-300 rounded-lg px-4 py-2 text-sm text-black"
+                            className="border border-gray-300 rounded-lg px-4 py-2 text-sm text-black font-pregular"
                             placeholder="Blog Title"
                             placeholderTextColor="#999"
                             value={title}
@@ -87,9 +87,9 @@ export default function CreateBlogScreen() {
 
                     {/* Tag */}
                     <View className="mb-3">
-                        <Text className="text-sm text-gray-700 mb-1">Tag</Text>
+                        <Text className="text-sm text-gray-700 mb-1 font-pregular">Tag</Text>
                         <TextInput
-                            className="border border-gray-300 rounded-lg px-4 py-2 text-sm text-black"
+                            className="border border-gray-300 rounded-lg px-4 py-2 text-sm text-black font-pregular"
                             placeholder="e.g. mindfulness"
                             placeholderTextColor="#999"
                             value={tag}
@@ -99,9 +99,9 @@ export default function CreateBlogScreen() {
 
                     {/* Content */}
                     <View className="mb-3">
-                        <Text className="text-sm text-gray-700 mb-1">Content</Text>
+                        <Text className="text-sm text-gray-700 mb-1 font-pregular">Content</Text>
                         <TextInput
-                            className="border border-gray-300 rounded-lg px-4 py-2 text-sm text-black h-32 text-top"
+                            className="border border-gray-300 rounded-lg px-4 py-2 text-sm text-black h-32 text-top font-pregular"
                             placeholder="Write your blog content here..."
                             placeholderTextColor="#999"
                             value={content}
@@ -113,10 +113,10 @@ export default function CreateBlogScreen() {
 
                     {/* Pick Image Button */}
                     <TouchableOpacity
-                        className="bg-gray-100 rounded-lg py-3 items-center mb-3"
+                        className="bg-gray-100 rounded-lg py-3 items-center mb-3 font-pmedium"
                         onPress={pickImage}
                     >
-                        <Text className="text-gray-800 font-medium">Pick Blog Image</Text>
+                        <Text className="text-gray-800 font-pmedium">Pick Blog Image</Text>
                     </TouchableOpacity>
 
                     {/* Preview */}

@@ -38,7 +38,7 @@ const BlogDetails = () => {
         }
     };
 
-    console.log(data);
+    // console.log(data);
 
     if (isLoading || isFetching) {
         return (
@@ -67,7 +67,7 @@ const BlogDetails = () => {
                 />
                 <View className="flex-row justify-between px-6 mb-2">
                     <Text className="text-2xl font-psemibold text-black mb-2 ">{data.blog.title}</Text>
-                    <TouchableOpacity className="h-10 w-10 bg-white justify-center items-center rounded-full" onPress={handleLikePress}>
+                    <TouchableOpacity className="h-10 w-10 bg-white justify-center items-center rounded-full shadow-lg" onPress={handleLikePress}>
                         <AntDesign name={!likeState ? "hearto" : "heart"} size={24} color="#FF7799" />
                     </TouchableOpacity>
                     {/* Blog Title */}
@@ -97,11 +97,13 @@ const BlogDetails = () => {
                     <Text className="text-base text-gray-800 leading-6 font-pregular">{data.blog.content}</Text>
 
                     {/* Footer stats */}
-                    <View className="flex-row justify-between mt-6 border-t border-gray-300 pt-3 ">
+                    <View className="flex-row justify-between mt-6 border-t border-gray-300 pt-3 mb-5">
                         <Text className="text-sm text-gray-500 font-plight">
                             Likes: {data.blog.likeCount}
                         </Text>
-                        <Text className="text-sm text-gray-500 font-plight">Comments: {data.blog.commentCount}</Text>
+                        <Link href={`/comment/${data.blog._id}`}>
+                            <Text className="text-sm text-gray-500 font-plight">Comments: {data.blog.commentCount}</Text>
+                        </Link>
                         <Text className="text-sm text-gray-500 font-plight">
                             {new Date(data.blog.createdAt).toDateString()}
                         </Text>
