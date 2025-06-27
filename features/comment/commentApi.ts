@@ -14,25 +14,29 @@ export const commentApi = apiSlice.injectEndpoints({
 
             // Cache by blog
             serializeQueryArgs: ({ endpointName, queryArgs }) => {
+                console.log("hello");
+                console.log(endpointName, queryArgs);
                 return `${endpointName}-${queryArgs.blogId}`;
             },
 
             // Append new comments to existing data
-            merge: (currentCache, newData) => {
-                if (newData.page === 1) {
-                    return newData; // replace for page 1
+            merge: (existingCache, newItems) => {
+                if (newItems.page === 1) {
+                    return { ...newItems }; // replace for page 1
                 }
 
-                console.log(currentCache, "currentCache");
-                console.log(newData, "newData");
-
                 return {
-                    ...currentCache,
-                    docs: [...(currentCache.docs || []), ...newData.docs],
-                    page: newData.page,
-                    totalPages: newData.totalPages,
-                    hasNextPage: newData.hasNextPage,
-                    nextPage: newData.nextPage,
+                    ...existingCache,
+                    docs: [...(existingCache?.docs || []), ...newItems.docs],
+                    totalDocs: newItems.totalDocs,
+                    limit: newItems.limit,
+                    page: newItems.page,
+                    totalPages: newItems.totalPages,
+                    hasNextPage: newItems.hasNextPage,
+                    hasPrevPage: newItems.hasPrevPage,
+                    prevPage: newItems.prevPage,
+                    nextPage: newItems.nextPage,
+                    pagingCounter: newItems.pagingCounter,
                 };
             },
 
@@ -43,7 +47,8 @@ export const commentApi = apiSlice.injectEndpoints({
 
             providesTags: (result, error, { blogId, page }) => [
                 { type: 'Comments', id: `${blogId}-${page}` },
-                { type: 'Comments', id: blogId },
+                // { type: 'Comments', id: page },
+                // { type: 'Comments' },
             ],
         }),
 
@@ -55,10 +60,15 @@ export const commentApi = apiSlice.injectEndpoints({
                 body: newComment,
             }),
 
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                const { data } = await queryFulfilled;
+
+            },
+
             // Optional: Invalidate cache for the blog to refetch updated comments
-            // invalidatesTags: (result, error, { blogId }) => [
-            //     { type: 'Comments', id: blogId },
-            // ],
+            invalidatesTags: (result, error, { blogId, page }) => [
+                // { type: 'Comments', id: `${blogId}` },
+            ],
         }),
     }),
 });
