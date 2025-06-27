@@ -14,8 +14,8 @@ export const commentApi = apiSlice.injectEndpoints({
 
             // Cache by blog
             serializeQueryArgs: ({ endpointName, queryArgs }) => {
-                console.log("hello");
-                console.log(endpointName, queryArgs);
+                // console.log("hello");
+                // console.log(endpointName, queryArgs);
                 return `${endpointName}-${queryArgs.blogId}`;
             },
 

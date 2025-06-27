@@ -66,7 +66,7 @@ const BlogDetails = () => {
                     resizeMode="cover"
                 />
                 <View className="flex-row justify-between px-6 mb-2">
-                    <Text className="text-2xl font-psemibold text-black mb-2 ">{data.blog.title}</Text>
+                    <Text className="text-2xl font-psemibold text-black mb-2 w-[80%]">{data.blog.title}</Text>
                     <TouchableOpacity className="h-10 w-10 bg-white justify-center items-center rounded-full shadow-lg" onPress={handleLikePress}>
                         <AntDesign name={!likeState ? "hearto" : "heart"} size={24} color="#FF7799" />
                     </TouchableOpacity>

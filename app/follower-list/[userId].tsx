@@ -39,7 +39,7 @@ const FollowList = () => {
 
     const handleLoadMore = () => {
         if (hasNextPage && !isFetching && !refreshing) {
-            console.log("Called handleLoadMore", hasNextPage && !isFetching && !refreshing);
+            // console.log("Called handleLoadMore", hasNextPage && !isFetching && !refreshing);
             setPage(nextPage);
         }
     };
@@ -71,10 +71,10 @@ const FollowList = () => {
         </View>
     );
 
-    console.log(followerList?.docs, "data in ui");
+    // console.log(followerList?.docs, "data in ui");
 
 
-    console.log(userId);
+    // console.log(userId);
     return (
         <View className="flex-1 bg-background-100">
             {isLoading && !followerList ? (

@@ -16,10 +16,10 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
     if (result?.error?.status === 403) {
-        console.log("baseQueryWithReauth working");
+        // console.log("baseQueryWithReauth working");
         try {
             const refreshToken = await getRefreshToken();
-            console.log(refreshToken, "refreshToken");
+            // console.log(refreshToken, "refreshToken");
             if (!refreshToken) {
                 api.dispatch(logOut());
                 return result;
@@ -37,7 +37,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
                 extraOptions
             );
 
-            console.log(refreshResult, "refreshResult");
+            // console.log(refreshResult, "refreshResult");
 
             if (refreshResult?.data) {
                 // @ts-ignore

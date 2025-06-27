@@ -45,7 +45,7 @@ export const likeApi = apiSlice.injectEndpoints({
 
         toggleBlogLike: builder.mutation<boolean, string>({
             query: ({ blogId }) => {
-                console.log(blogId, "toggleBlogLike");
+                // console.log(blogId, "toggleBlogLike");
                 return {
                     url: `/blog/toggle-blog-like/${blogId}`,
                     method: "PUT",

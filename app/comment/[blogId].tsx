@@ -1,5 +1,5 @@
 
-import blogCommentTile from '@/components/blogCommentTile';
+import CommentTile from '@/components/CommentTile';
 import { icons, images } from '@/constants';
 import { useAddCommentMutation, useGetBlogCommentsQuery } from '@/features/comment/commentApi';
 
@@ -109,7 +109,7 @@ const FollowList = () => {
                         contentContainerClassName="w-[95%] self-center"
                         data={comments.docs || []}
                         keyExtractor={(item) => item._id.toString()}
-                        renderItem={blogCommentTile}
+                        renderItem={({ item }) => <CommentTile item={item} />}
                         onEndReachedThreshold={0.6}
                         ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }} className="font-plight">No comments found.</Text>}
                         ListHeaderComponent={renderHeader}

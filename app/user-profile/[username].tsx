@@ -20,7 +20,7 @@ const UserProfile = () => {
 
     useEffect(() => {
         setFollowState(data?.isFollowing);
-        console.log("useEffect: ", data);
+        // console.log("useEffect: ", data);
     }, [data?.isFollowing]);
 
     // console.log(data?.isFollowing, "data in ui");

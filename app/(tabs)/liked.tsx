@@ -24,7 +24,7 @@ const FeedScreen = () => {
         refetch
     } = useGetLikedQuery({ page, limit: 5 });
 
-    console.log(likedData);
+    // console.log(likedData);
 
     const hasNextPage = likedData?.hasNextPage;
     const nextPage = likedData?.nextPage;
@@ -77,7 +77,7 @@ const FeedScreen = () => {
                 <FlatList
                     data={likedData?.docs || []}
                     keyExtractor={(item) => item._id.toString()}
-                    renderItem={BlogCard}
+                    renderItem={({ item }) => <BlogCard item={item} />}
                     contentContainerClassName="w-[95%] self-center"
                     ListHeaderComponent={renderHeader}
                     ListFooterComponent={renderFooter}

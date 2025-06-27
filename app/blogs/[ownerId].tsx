@@ -12,9 +12,13 @@ import {
     Text,
     View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const UserBlog = () => {
     const { ownerId } = useLocalSearchParams();
+    const userId = useSelector(state => state.auth.user._id);
+
+
     const [page, setPage] = useState(1);
     const [refreshing, setRefreshing] = useState(false);
 
@@ -51,7 +55,7 @@ const UserBlog = () => {
 
     const renderHeader = () => (
         <View className="h-20 w-[90%] mt-[10%] px-2 self-center">
-            <Text className="font-pextrabold text-3xl">Your Clicx</Text>
+            <Text className="font-pextrabold text-3xl">{(ownerId === userId) && "Your "}Clicx</Text>
             <Image
                 source={images.path}
                 className="h-2 w-20"
@@ -64,7 +68,7 @@ const UserBlog = () => {
     const renderFooter = () => (
         <View style={{ marginVertical: 16, alignItems: 'center' }}>
             {isFetching && !refreshing ? (
-                <ActivityIndicator size="small" color="#007AFF" />
+                <ActivityIndicator size="small" color="#000" />
             ) : blogData?.hasNextPage ? (
                 <Text style={{ color: '#888' }}>Scroll to load more</Text>
             ) : (
@@ -78,14 +82,14 @@ const UserBlog = () => {
         <View className="flex-1 bg-slate-100">
             {isLoading && !blogData ? (
                 <View className="flex-1 justify-center items-center">
-                    <ActivityIndicator size="large" color="#007AFF" />
+                    <ActivityIndicator size="large" color="#000" />
                 </View>
             ) : (
                 <FlatList
                     data={blogData?.docs || []}
                     contentContainerClassName="w-[95%] self-center"
                     keyExtractor={(item) => item._id.toString()}
-                    renderItem={BlogCard}
+                    renderItem={({ item }) => <BlogCard item={item} />}
                     onEndReached={handleLoadMore}
                     onEndReachedThreshold={0.6}
                     ListEmptyComponent={
@@ -99,7 +103,7 @@ const UserBlog = () => {
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={onRefresh}
-                            tintColor="#007AFF"
+                            tintColor="#000"
                         />
                     }
                 />

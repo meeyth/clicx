@@ -67,7 +67,7 @@ const FeedScreen = () => {
                 <FlatList
                     data={feedData?.docs || []}
                     keyExtractor={(item) => item._id.toString()}
-                    renderItem={BlogCard}
+                    renderItem={({ item }) => <BlogCard item={item} />}
                     contentContainerClassName="w-[95%] self-center"
                     ListHeaderComponent={FeedHeader}
                     ListFooterComponent={renderFooter}

@@ -38,7 +38,7 @@ const FollowList = () => {
 
     const handleLoadMore = () => {
         if (hasNextPage && !isFetching && !refreshing) {
-            console.log("Called handleLoadMore", hasNextPage && !isFetching && !refreshing);
+            // console.log("Called handleLoadMore", hasNextPage && !isFetching && !refreshing);
             setPage(nextPage);
         }
     };
