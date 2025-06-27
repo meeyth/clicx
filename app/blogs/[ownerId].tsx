@@ -25,6 +25,9 @@ const UserBlog = () => {
         refetch,
     } = useGetUserBlogsQuery(
         { userId: ownerId, page, limit: 5 },
+        {
+            refetchOnMountOrArgChange: true,
+        }
     );
 
     // console.log(blogData, "blogdata");

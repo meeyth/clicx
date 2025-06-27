@@ -1,12 +1,11 @@
 // app/(tabs)/feed.tsx
 import BlogCard from '@/components/BlogCard';
-import { images } from '@/constants';
+import FeedHeader from '@/components/FeedHeader';
 import { useGetFeedQuery } from '@/features/feed/feedApi';
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
     FlatList,
-    Image,
     RefreshControl,
     Text,
     View
@@ -44,13 +43,6 @@ const FeedScreen = () => {
             setPage(nextPage);
         }
     };
-    const renderHeader = () => (
-        <View className="h-20 w-[90%] mt-[10%] px-2 self-center">
-            <Text className="font-pextrabold text-3xl">Clicx</Text>
-            <Image source={images.path} className="h-2 w-20" style={{ resizeMode: 'contain' }} />
-            <View className="bg-black-200 h-[0.1rem] w-full rounded-lg mt-2 opacity-35 mb-20" />
-        </View>
-    );
 
     const renderFooter = () => (
         <View style={{ marginVertical: 16, alignItems: 'center' }}>
@@ -77,7 +69,7 @@ const FeedScreen = () => {
                     keyExtractor={(item) => item._id.toString()}
                     renderItem={BlogCard}
                     contentContainerClassName="w-[95%] self-center"
-                    ListHeaderComponent={renderHeader}
+                    ListHeaderComponent={FeedHeader}
                     ListFooterComponent={renderFooter}
                     onEndReached={handleLoadMore}
                     onEndReachedThreshold={0.6}

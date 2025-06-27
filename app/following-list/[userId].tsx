@@ -68,10 +68,10 @@ const FollowList = () => {
     );
 
 
-    console.log(followingList);
+    // console.log(followingList);
 
 
-    console.log(userId);
+    // console.log(userId);
     return (
         <View className="flex-1 bg-background-100">
             {isLoading && !followingList ? (
