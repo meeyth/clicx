@@ -7,11 +7,11 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useSelector } from 'react-redux';
 
 const BlogCard = ({ item }) => {
-    console.log(item, "item");
+    // console.log(item, "item");
 
     const userId = useSelector(state => state.auth.user._id);
 
-    console.log(userId);
+    // console.log(userId);
 
     return (
         <Link href={`blog-details/${item?._id}`} className="mb-12 ">

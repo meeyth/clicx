@@ -47,7 +47,7 @@ export const commentApi = apiSlice.injectEndpoints({
 
             providesTags: (result, error, { blogId, page }) => [
                 { type: 'Comments', id: `${blogId}-${page}` },
-                // { type: 'Comments', id: page },
+                { type: 'Comments', id: page },
                 // { type: 'Comments' },
             ],
         }),
@@ -60,17 +60,41 @@ export const commentApi = apiSlice.injectEndpoints({
                 body: newComment,
             }),
 
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                const { data } = await queryFulfilled;
-
-            },
 
             // Optional: Invalidate cache for the blog to refetch updated comments
             invalidatesTags: (result, error, { blogId, page }) => [
                 // { type: 'Comments', id: `${blogId}` },
             ],
         }),
+
+
+        updateComment: builder.mutation({
+            query: ({ commentId, newComment }) => ({
+                url: '/blog/update-comment',
+                method: 'PUT',
+                body: { commentId, newComment },
+            }),
+            // invalidatesTags: (result, error, { blogId }) => [
+            //     { type: 'Comments', id: blogId },
+            // ],
+        }),
+
+        deleteComment: builder.mutation({
+            query: ({ commentId }) => ({
+                url: '/blog/delete-comment',
+                method: 'DELETE',
+                body: { commentId },
+            }),
+            // invalidatesTags: (result, error, { blogId }) => [
+            //     { type: 'Comments', id: blogId },
+            // ],
+        }),
     }),
 });
 
-export const { useGetBlogCommentsQuery, useAddCommentMutation } = commentApi;
+export const {
+    useGetBlogCommentsQuery,
+    useAddCommentMutation,
+    useUpdateCommentMutation,
+    useDeleteCommentMutation,
+} = commentApi;
