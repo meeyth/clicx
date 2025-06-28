@@ -1,5 +1,5 @@
 import { useLoginMutation } from '@/features/auth/authApi';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
 import { SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -94,9 +94,8 @@ const LoginScreen = () => {
 
                 <Text className="text-center text-sm text-gray-600 font-pregular ">
                     New to Clicx?
-                    <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
-                        <Text className="text-blue-600 font-plight">Sign Up</Text>
-                    </TouchableOpacity>
+
+                    <Link href="/(auth)/signup" push className="text-blue-600 font-pregular"> Sign up</Link>
                 </Text>
             </View>
         </SafeAreaView>

@@ -8,6 +8,7 @@ import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
+// @ts-ignore
 const CommentTile = ({ item, inputRef, setComment, setCommentIdToEdit }) => {
     const userId = useSelector((state) => state.auth.user._id);
     const [deleteComment] = useDeleteCommentMutation();

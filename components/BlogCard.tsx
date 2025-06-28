@@ -1,7 +1,8 @@
 import { Link } from 'expo-router';
 import React from 'react';
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 
+import { useDeleteBlogMutation } from '@/features/blog/blogApi';
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useSelector } from 'react-redux';
@@ -12,6 +13,28 @@ const BlogCard = ({ item }) => {
     const userId = useSelector(state => state.auth.user._id);
 
     // console.log(userId);
+
+    const [deleteBlog, { isLoading }] = useDeleteBlogMutation();
+
+    const handleDelete = async () => {
+        try {
+            Alert.alert("Confirm", "Are you sure you want to delete this blog?", [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Delete",
+                    onPress: async () => {
+                        await deleteBlog({ blogId: item?._id }).unwrap();
+                        // Optional: navigate or refetch data
+                    }
+                }
+            ]);
+        } catch (err) {
+            console.error("Failed to delete blog:", err);
+        }
+    };
 
     return (
         <Link href={`blog-details/${item?._id}`} className="mb-12 ">
@@ -32,7 +55,7 @@ const BlogCard = ({ item }) => {
                             <TouchableOpacity>
                                 <Feather name="edit" size={20} color="gray" />
                             </TouchableOpacity>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={handleDelete}>
                                 <MaterialIcons name="delete-outline" size={24} color="red" />
                             </TouchableOpacity>
                         </View>}

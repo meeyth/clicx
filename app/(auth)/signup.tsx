@@ -1,7 +1,7 @@
 // app/(auth)/Register.tsx
 import { useRegisterMutation } from '@/features/auth/authApi';
 import * as ImagePicker from 'expo-image-picker';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
 import {
     Image,
@@ -183,9 +183,7 @@ const Register = () => {
 
                     <Text className="text-center text-sm text-gray-600 font-pregular">
                         Already have an account?
-                        <TouchableOpacity onPress={() => router.replace("/(auth)")}>
-                            <Text className="text-blue-600 font-plight">Login</Text>
-                        </TouchableOpacity>
+                        <Link href="/(auth)" replace className="text-blue-600 font-pregular"> Login</Link>
                     </Text>
                 </View>
             </ScrollView>

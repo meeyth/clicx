@@ -71,7 +71,20 @@ export const blogApi = apiSlice.injectEndpoints({
                 { type: 'UserBlogs' },
             ],
         }),
+
+        deleteBlog: builder.mutation({
+            query: ({ blogId }) => ({
+                url: '/blog/delete-blog',
+                method: 'DELETE', // or POST if your backend expects it (currently it's POST)
+                body: { blogId },
+            }),
+
+            // Invalidate the blog list or user profile cache if needed
+            invalidatesTags: (result, error, { blogId }) => [
+                { type: 'UserBlogs' },
+            ],
+        }),
     }),
 });
 
-export const { useCreateBlogMutation, useGetUserBlogsQuery, useGetSpecificBlogQuery } = blogApi;
+export const { useCreateBlogMutation, useGetUserBlogsQuery, useGetSpecificBlogQuery, useDeleteBlogMutation } = blogApi;

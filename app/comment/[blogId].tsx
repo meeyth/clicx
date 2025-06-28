@@ -53,10 +53,11 @@ const CommentScreen = () => {
     };
 
     const handleCommentSubmit = async () => {
+        if (!comment.trim()) return;
+
         try {
             if (commentIdToEdit) {
-                console.log({ commentId: commentIdToEdit, newComment: comment, });
-                updateComment({ commentId: commentIdToEdit, newComment: comment, });
+                await updateComment({ commentId: commentIdToEdit, newComment: comment, });
                 keyboardHandler()
                 return;
             }
@@ -122,6 +123,7 @@ const CommentScreen = () => {
                             placeholder="Drop your thoughts"
                             value={comment}
                             onChangeText={setComment}
+                            placeholderTextColor="#A8B5DB"
                         />
                     </View>
                     <TouchableOpacity
