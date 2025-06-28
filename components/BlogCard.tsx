@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React from 'react';
 import { Alert, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 
@@ -36,6 +36,16 @@ const BlogCard = ({ item }) => {
         }
     };
 
+    const handleEdit = () => {
+        router.push({
+            pathname: '/(tabs)/create',
+            params: {
+                mode: 'edit',
+                blog: JSON.stringify(item), // pass full blog as string
+            },
+        });
+    };
+
     return (
         <Link href={`blog-details/${item?._id}`} className="mb-12 ">
             <View className="px-5 w-full " >
@@ -52,8 +62,8 @@ const BlogCard = ({ item }) => {
                         </View>}
                     {(item?.owner === userId) &&
                         <View className="h-fit w-20 absolute right-2 top-2 justify-around items-center rounded-xl bg-[#FFFA] py-1 px-2 flex-row">
-                            <TouchableOpacity>
-                                <Feather name="edit" size={20} color="gray" />
+                            <TouchableOpacity onPress={handleEdit}>
+                                <Feather name="edit" size={20} color="black" />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={handleDelete}>
                                 <MaterialIcons name="delete-outline" size={24} color="red" />

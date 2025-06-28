@@ -84,7 +84,17 @@ export const blogApi = apiSlice.injectEndpoints({
                 { type: 'UserBlogs' },
             ],
         }),
+
+        updateBlog: builder.mutation({
+            query: (formData) => ({
+                url: '/blog/update-blog',
+                method: 'PUT',
+                body: formData,
+                formData: true,
+            }),
+            invalidatesTags: ['UserBlogs'],
+        }),
     }),
 });
 
-export const { useCreateBlogMutation, useGetUserBlogsQuery, useGetSpecificBlogQuery, useDeleteBlogMutation } = blogApi;
+export const { useCreateBlogMutation, useGetUserBlogsQuery, useGetSpecificBlogQuery, useDeleteBlogMutation, useUpdateBlogMutation } = blogApi;

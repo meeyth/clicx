@@ -1,7 +1,7 @@
 // app/(tabs)/_layout.tsx
 
 import icons from '@/constants/icons';
-import { Redirect, Tabs } from 'expo-router';
+import { Redirect, Tabs, useNavigation } from 'expo-router';
 import React from 'react';
 import { Image, View } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -46,6 +46,8 @@ function TabIcon({ focused, icon, title }: any) {
 
 const HomeLayout = () => {
     const user = useSelector((state: any) => state.auth.user);
+
+    const navigation = useNavigation();
 
     if (!user) return <Redirect href="/(auth)" />;
 
@@ -100,7 +102,9 @@ const HomeLayout = () => {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} icon={icons.plus} title="Create" />
                     ),
+
                 }}
+
             />
             <Tabs.Screen
                 name="liked"
@@ -110,6 +114,7 @@ const HomeLayout = () => {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} icon={icons.heart3} title="Liked" />
                     ),
+
                 }}
             />
             <Tabs.Screen
