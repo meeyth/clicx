@@ -80,7 +80,7 @@ const CommentScreen = () => {
 
     const renderFooter = () => (
         <View style={{ marginVertical: 16, alignItems: 'center' }}>
-            {isFetching ? <ActivityIndicator size="small" /> : <Text>No more comments</Text>}
+            {isFetching ? <ActivityIndicator size="small" color="#000" /> : <Text>No more comments</Text>}
         </View>
     );
 
