@@ -1,12 +1,12 @@
-// app/(tabs)/_layout.tsx
-
-import icons from '@/constants/icons';
-import { Redirect, Tabs, useNavigation } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
 import { Image, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
-function TabIcon({ focused, icon, title }: any) {
+// Import Expo icons (feel free to change to FontAwesome5, MaterialIcons, etc.)
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+
+function TabIcon({ focused, title }: { focused: boolean; title: string }) {
     const user = useSelector((state: any) => state.auth.user);
 
     const isProfileTab = title === 'Profile';
@@ -14,7 +14,7 @@ function TabIcon({ focused, icon, title }: any) {
 
     if (isProfileTab && profileImage) {
         return (
-            <View className="mt-4">
+            <View className="mt-5">
                 <Image
                     source={{ uri: profileImage }}
                     style={{
@@ -22,32 +22,52 @@ function TabIcon({ focused, icon, title }: any) {
                         height: focused ? 28 : 24,
                         borderRadius: 50,
                         borderWidth: focused ? 2 : 0,
-                        borderColor: focused ? "#ff9911" : "transparent",
+                        borderColor: focused ? '#ff9911' : 'transparent',
                     }}
-                    className={focused ? "size-7" : "size-6"}
                 />
             </View>
         );
     }
 
+    const color = focused ? '#000000' : '#0F0F0F';
+
+    let iconSize = focused ? 26 : 22;
+    let IconComponent: any = Feather;
+    let iconName: string = '';
+
+    switch (title) {
+        case 'Home':
+            IconComponent = AntDesign;
+            iconName = 'home';
+            break;
+        case 'Search':
+            IconComponent = Feather;
+            iconName = 'search';
+            break;
+        case 'Create':
+            IconComponent = Ionicons;
+            iconName = 'add-circle-outline';
+            iconSize += 2;
+            break;
+        case 'Liked':
+            IconComponent = AntDesign;
+            iconName = 'hearto';
+            break;
+        case 'Profile':
+            IconComponent = Feather;
+            iconName = 'user';
+            break;
+    }
+
     return (
-        <View
-            className={`mt-4 justify-center items-center min-w-full min-h-16   ${focused ? "rounded-full overflow-hidden" : ""
-                }`}
-        >
-            <Image
-                source={icon}
-                tintColor={focused ? "#000000" : "#0F0F0F"}
-                className={focused ? "size-7" : "size-6"}
-            />
+        <View className=" h-full mt-7">
+            <IconComponent name={iconName} size={iconSize} color={color} />
         </View>
-    );
+    )
 }
 
 const HomeLayout = () => {
     const user = useSelector((state: any) => state.auth.user);
-
-    const navigation = useNavigation();
 
     if (!user) return <Redirect href="/(auth)" />;
 
@@ -56,19 +76,19 @@ const HomeLayout = () => {
             screenOptions={{
                 tabBarShowLabel: false,
                 tabBarItemStyle: {
-                    width: "100%",
-                    height: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    display: "flex",
+                    justifyContent: 'center',
+                    alignItems: 'center',
                 },
                 tabBarStyle: {
                     borderRadius: 50,
-                    marginHorizontal: 10,
+                    marginHorizontal: 20,
                     marginBottom: 36,
-                    height: 52,
-                    position: "absolute",
-                    overflow: "hidden",
+                    height: 62,
+                    position: 'absolute',
+                    overflow: 'hidden',
                     borderWidth: 1,
+                    display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                 },
@@ -78,53 +98,40 @@ const HomeLayout = () => {
                 name="index"
                 options={{
                     headerShown: false,
-                    title: "Home",
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.home} title="Home" />
-                    ),
+                    title: 'Home',
+                    tabBarIcon: ({ focused }) => <TabIcon focused={focused} title="Home" />,
                 }}
             />
             <Tabs.Screen
                 name="search"
                 options={{
                     headerShown: false,
-                    title: "Search",
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.search} title="Search" />
-                    ),
+                    title: 'Search',
+                    tabBarIcon: ({ focused }) => <TabIcon focused={focused} title="Search" />,
                 }}
             />
             <Tabs.Screen
                 name="create"
                 options={{
                     headerShown: false,
-                    title: "Create",
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.plus} title="Create" />
-                    ),
-
+                    title: 'Create',
+                    tabBarIcon: ({ focused }) => <TabIcon focused={focused} title="Create" />,
                 }}
-
             />
             <Tabs.Screen
                 name="liked"
                 options={{
                     headerShown: false,
-                    title: "Liked",
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.heart3} title="Liked" />
-                    ),
-
+                    title: 'Liked',
+                    tabBarIcon: ({ focused }) => <TabIcon focused={focused} title="Liked" />,
                 }}
             />
             <Tabs.Screen
                 name="profile"
                 options={{
                     headerShown: false,
-                    title: "Profile",
-                    tabBarIcon: ({ focused }) => (
-                        <TabIcon focused={focused} icon={icons.profile} title="Profile" />
-                    ),
+                    title: 'Profile',
+                    tabBarIcon: ({ focused }) => <TabIcon focused={focused} title="Profile" />,
                 }}
             />
         </Tabs>

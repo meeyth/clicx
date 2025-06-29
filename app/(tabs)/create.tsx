@@ -18,7 +18,7 @@ export default function CreateOrEditBlogScreen() {
     const [createBlog, { isLoading: isCreating }] = useCreateBlogMutation();
     const [updateBlog, { isLoading: isUpdating }] = useUpdateBlogMutation();
 
-    console.log(mode);
+    // console.log(mode);
 
     // Separate states as in your original code
     const [blogId, setBlogId] = useState(null);
