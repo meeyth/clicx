@@ -12,7 +12,7 @@ import {
     View
 } from 'react-native';
 
-const FeedScreen = () => {
+const LikedScreen = () => {
     const [page, setPage] = useState(1);
     const [refreshing, setRefreshing] = useState(false);
 
@@ -97,4 +97,4 @@ const FeedScreen = () => {
     );
 };
 
-export default FeedScreen;
+export default LikedScreen;

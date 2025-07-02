@@ -152,7 +152,7 @@ const Register = () => {
                         className="bg-gray-100 rounded-lg py-3 items-center mb-2"
                         onPress={() => pickImage(setCoverImage)}
                     >
-                        <Text className="text-gray-800 font-pmedium">Pick Cover Image (optional)</Text>
+                        <Text className="text-gray-800 font-pmedium">Pick Cover Image</Text>
                     </TouchableOpacity>
                     {coverImage && (
                         <Image

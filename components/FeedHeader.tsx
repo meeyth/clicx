@@ -16,7 +16,7 @@ const FeedHeader = () => {
         isLoading,
         isFetching,
         refetch
-    } = useGetFollowingQuery({ userId, page }, { refetchOnMountOrArgChange: true });
+    } = useGetFollowingQuery({ userId, page }, { refetchOnMountOrArgChange: true, refetchOnFocus: true });
 
     const hasNextPage = followingList?.hasNextPage;
     const nextPage = followingList?.nextPage;
@@ -25,6 +25,7 @@ const FeedHeader = () => {
         setRefreshing(true);
         setPage(1);
     };
+
 
     useEffect(() => {
         if (refreshing && page === 1) {
