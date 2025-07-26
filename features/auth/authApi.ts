@@ -71,6 +71,23 @@ export const authApi = apiSlice.injectEndpoints({
                 }
             },
         }),
+
+        requestOtp: builder.mutation<{ success: boolean; message: string }, { email: string }>({
+            query: ({ email }) => ({
+                url: '/auth/request-otp', // adjust path to match your backend route
+                method: 'POST',
+                body: { email },
+            }),
+        }),
+
+        // 2. Validate OTP and Reset Password
+        resetPasswordWithOtp: builder.mutation<{ success: boolean; message: string }, { email: string; otp: string; newPassword: string }>({
+            query: ({ email, otp, newPassword }) => ({
+                url: '/auth/verify-otp', // adjust path to match your backend route
+                method: 'POST',
+                body: { email, otp, newPassword },
+            }),
+        }),
     }),
 }); // ✅ Required for proper type inference
 
@@ -79,4 +96,6 @@ export const {
     useRegisterMutation,
     useLogoutMutation,
     useGetCurrentUserQuery,
+    useRequestOtpMutation,
+    useResetPasswordWithOtpMutation,
 } = authApi;

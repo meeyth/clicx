@@ -74,9 +74,7 @@ const LoginScreen = () => {
                 </View>
 
                 {/* Reset Password */}
-                <TouchableOpacity className="mb-4 mt-1">
-                    <Text className="text-right text-xs text-blue-500 font-plight">Reset Password</Text>
-                </TouchableOpacity>
+                <Link href="/(auth)/getotp" push className="text-right text-xs text-blue-500 font-plight mb-4 mt-1"> Reset Password</Link>
 
                 {/* Login Button */}
                 <TouchableOpacity
