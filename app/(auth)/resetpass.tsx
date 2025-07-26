@@ -42,9 +42,9 @@ const ResetPassScreen = () => {
                     <Text className="text-sm font-plight text-gray-700 mb-1">OTP</Text>
                     <TextInput
                         className="border font-plight border-gray-300 rounded-lg px-4 py-2 text-sm text-black"
-                        placeholder="john.doe@gmail.com"
+                        placeholder="123456"
                         placeholderTextColor="#999"
-                        keyboardType="email-address"
+                        keyboardType="numeric"
                         autoCapitalize="none"
                         value={otp}
                         onChangeText={setOtp}
